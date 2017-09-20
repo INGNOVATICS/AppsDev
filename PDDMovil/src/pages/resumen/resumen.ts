@@ -20,6 +20,7 @@ export class ResumenPage {
   estadoCantidad: number[] = [];
   estadoColor: string[] = [];
   estadoColorHover: string[] = [];
+  currentDate = new Date();
 
   doughnutChart: any;
 
