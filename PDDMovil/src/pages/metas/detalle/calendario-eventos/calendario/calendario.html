@@ -28,7 +28,7 @@
             <small>{{ evento.estadoGestion }}</small>
           </ion-col>
           <ion-col col-8>
-            <small>Compromiso: {{ evento.fechaProgramada }}</small>     
+            <small>Compromiso: {{ evento.fechaProgramada | date: 'dd/MM/yyyy' }}</small>     
           </ion-col>
         </ion-row>
       </ion-grid>

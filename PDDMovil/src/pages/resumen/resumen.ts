@@ -36,6 +36,7 @@ export class ResumenPage {
                     };
                     this.cargarChart();
                   } )
+                  .catch( () => console.log("error") )
 
    }
 

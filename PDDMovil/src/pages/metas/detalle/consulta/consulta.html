@@ -1,0 +1,33 @@
+<ion-header>
+
+  <ion-toolbar>
+    <ion-buttons item-start>
+      <button ion-button icon-only color="secondary" (click)="cerrarModal()">
+        <ion-icon name="arrow-dropleft-circle"></ion-icon>
+      </button>
+    </ion-buttons>
+    <ion-title>Consulta</ion-title>
+  </ion-toolbar>
+
+</ion-header>
+
+
+<ion-content padding>
+<ion-card>
+  <ion-card-header>
+    {{meta.tituloMeta}}
+  </ion-card-header>
+  <ion-list>
+    <ion-item>
+      <ion-textarea aria-placeholder="ASD" name="mensaje" [(ngModel)]="mensaje"></ion-textarea>
+    </ion-item>
+    <ion-item>
+      <button ion-button class="submit-btn" 
+      full type="submit" 
+      [disabled]="mensaje.length<5" 
+      block
+      (click)="sendMessage()">ENVIAR</button>
+    </ion-item>
+  </ion-list>
+</ion-card>
+</ion-content>

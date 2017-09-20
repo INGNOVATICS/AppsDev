@@ -5,6 +5,7 @@ import { IonicPage, NavController, NavParams, ModalController, Platform } from '
 
 import { TendenciaPage } from './detalle-indicador/tendencia/tendencia';
 import { CalendarioPage } from './calendario-eventos/calendario/calendario';
+import { ConsultaPage } from './consulta/consulta';
 
 @IonicPage()
 @Component({
@@ -34,6 +35,13 @@ export class DetallePage {
     console.log("Mostrar modal Calendario");
     let modalCalendar = this.modalCtrl.create( CalendarioPage, {idMeta: idMeta} );
     modalCalendar.present();
+  }
+
+  enviarConsulta(){
+
+    console.log(this.detalleMeta);
+    let modalConsulta = this.modalCtrl.create(ConsultaPage, { meta: this.detalleMeta });
+    modalConsulta.present();
   }
 
   // ionViewWillEnter(){

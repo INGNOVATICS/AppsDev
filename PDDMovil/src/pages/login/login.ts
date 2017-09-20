@@ -18,29 +18,14 @@ export class LoginPage {
               private usrSvc: UsuarioProvider,
               private viewCtrl: ViewController,
               private loadingCtrl: LoadingController) {
-
- 
-  }
-
-  ionViewDidLoad() {
     this.usrSvc.cargarDelStorage()
-                 .then( () => {
-     if(this.usrSvc.isLogged()){
-       console.log("usuario registrado: " + this.usrSvc.idUsuario);
-       this.navCtrl.setRoot(HomePage);
-       
-     }
-    //  else {   
-    //   //  this.pedirDatos();   
-    //    // modalLogin = this.modalCtrl.create( LoginPage );
-    //    // modalLogin.present();
-    //  }
-
-     // this.modalLogin.onDidDismiss( (logged:boolean) => {
-     //   if( logged )
-     //     this.cargarAplicacion();
-     // } )      
-   })
+               .then( () => {
+                  if(this.usrSvc.isLogged()){
+                    console.log("usuario registrado: " + this.usrSvc.idUsuario);
+                    this.navCtrl.setRoot(HomePage);
+                  }     
+  })
+ 
   }
 
   getUserInfo(){

@@ -33,13 +33,14 @@ export class ListadoPage {
   loader.present();
 
   this.metaSvc.getMetasDependencia()
-        .then( () => {loader.dismiss(); 
-        
+        .then( (resp) => {
+          loader.dismiss();
+          console.log(resp);
           this.items = this.metaSvc.metasDependencia; //Search
         
         } //console.log(this.metaSvc.metasDependencia)
-
-        );
+        )
+        .catch(() => loader.dismiss() )
 
 }
 

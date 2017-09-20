@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-// import { NavParams } from 'ionic-angular';
+ import { ToastController } from 'ionic-angular';
 import {Http} from '@angular/http';
 import 'rxjs/add/operator/map';
 import { MetaModel } from '../../../src/app/models/meta_model';
@@ -26,7 +26,8 @@ export class MetaProvider {
   private urlAlertas: string = "http://192.99.14.27:8089/santamarta/sigob/eventos/";
 
   constructor(public http: Http,
-              private usrService: UsuarioProvider) {
+              private usrService: UsuarioProvider,
+              private toastCtrl: ToastController) {
 
                // this.getEstadoMetasDependencia();
               }
@@ -35,12 +36,13 @@ export class MetaProvider {
 
     let promiseEstados = new Promise( (resolve, reject) => {
 
-    return this.http.get(this.urlEstados+this.usrService.idUsuario)
+    return this.http.get(this.urlEstados+this.usrService.idDependencia)
     .map( res => res.json () )
     .subscribe(data =>{
-      //console.log(data);
-      if (data.error){
-        //asdasdsa
+      console.log(data);
+      if (data.error){ 
+        /////////////////
+
       }else {
         if( data.estadoMetas instanceof Array )
           this.estados = data.estadoMetas.slice();
@@ -49,7 +51,15 @@ export class MetaProvider {
         console.log(data);
       }
       resolve();
-    })
+    },
+    err =>{ reject();
+      let toast = this.toastCtrl.create({
+        message: 'No se encontraron metas para el usuario actual',
+        duration: 3000,
+        position: 'middle'
+      }).present();
+    }
+  )
   });
 
   return promiseEstados;
@@ -60,17 +70,18 @@ export class MetaProvider {
 
     let promiseMetas = new Promise( (resolve, reject) => {
 
-      return this.http.get( this.urlMetas+this.usrService.idUsuario )
+      return this.http.get( this.urlMetas+this.usrService.idDependencia )
       .map ( res => res.json() )
       .subscribe( data => {
         if ( data.error ){
-          //aaaaa
+          console.log("Errorrr")
         }else {
           this.dependencia = data.nombreDependencia;
           this.creaObjetos(data);
         }
         resolve();
-      })
+      },
+      err => reject())
     } );
     return promiseMetas;
   }
@@ -96,8 +107,8 @@ export class MetaProvider {
     
     this.alertaEventos = [];
     let promiseAlertas = new Promise((resolve, reject) => {
-      console.log(this.urlAlertas+this.usrService.idUsuario);
-      return this.http.get(this.urlAlertas+this.usrService.idUsuario)
+      console.log(this.urlAlertas+this.usrService.idDependencia);
+      return this.http.get(this.urlAlertas+this.usrService.idDependencia)
       .map(res => res.json() )
       .subscribe ( data => {
         if( data.error ){
