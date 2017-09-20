@@ -1,0 +1,37 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons item-start>
+      <button ion-button icon-only color="secondary" (click)="cerrarModal()">
+        <ion-icon name="arrow-dropleft-circle"></ion-icon>
+      </button>
+    </ion-buttons>
+    <ion-title>Programación de Meta </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-content >
+	<ion-list *ngFor="let meta of metaSvc.eventosMeta">
+    <ion-item text-center text-wrap >{{ meta.tituloMeta }}</ion-item>
+				<ion-item class="text" *ngFor="let evento of meta.eventos">
+			<ion-icon name="radio-button-on"
+				item-start [color]="estiloEstadoEvento(evento.idEstado)">
+      </ion-icon>
+      <ion-grid>
+        <ion-row>
+          <ion-col col-12>
+            <h6  text-wrap>{{ evento.tituloEvento }}</h6>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col col-4>
+            <small>{{ evento.estadoGestion }}</small>
+          </ion-col>
+          <ion-col col-8>
+            <small>Compromiso: {{ evento.fechaProgramada }}</small>     
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+		</ion-item>
+	</ion-list>
+</ion-content>

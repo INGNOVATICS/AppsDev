@@ -1,0 +1,8 @@
+{
+  "name": "PDDMovil",
+  "app_id": "a1897c63",
+  "type": "ionic-angular",
+  "integrations": {
+    "cordova": {}
+  }
+}

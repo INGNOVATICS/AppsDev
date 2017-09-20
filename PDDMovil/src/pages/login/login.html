@@ -1,0 +1,42 @@
+<ion-content class="login-content" padding>
+  <ion-row class="logo-row">
+    <ion-col></ion-col>
+    <ion-col width-67>
+      <img src="http://www.santamarta.gov.co/portal/images/alcaldia_sm/smsiguecambiando.png"/>
+    </ion-col>
+    <ion-col></ion-col>
+  </ion-row>
+  
+  <div class="login-box">
+      <ion-row><ion-col>INICIO DE SESIÓN&nbsp;<ion-icon name="contact" item-end></ion-icon></ion-col></ion-row>
+      <ion-row>
+        <ion-col>
+          <ion-list inset>
+            <ion-item>              
+              <ion-input type="text" placeholder="Usuario" name="user" [(ngModel)]="userName" required></ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-input type="password" placeholder="Password" name="password" [(ngModel)]="userKey" required></ion-input>
+            </ion-item>
+          </ion-list>
+        </ion-col>
+      </ion-row>
+      
+      <ion-row>
+        <ion-col class="signup-col">
+          <button ion-button class="submit-btn" 
+                  full type="submit" 
+                  [disabled]="userName.length<5 || userKey.length < 3" 
+                  block
+                  (click)="getUserInfo()">INGRESAR</button>
+          <!-- <button ion-button class="register-btn" block clear (click)="createAccount()">Create New Account</button> -->
+        </ion-col>
+      </ion-row>
+  </div>
+<ion-item text-right>
+    <p>Powered by</p>
+      <ion-avatar item-end>
+        <img src="http://192.99.14.27/concursodisenoweb/Public/img/tic.png">
+      </ion-avatar>
+</ion-item>
+</ion-content>

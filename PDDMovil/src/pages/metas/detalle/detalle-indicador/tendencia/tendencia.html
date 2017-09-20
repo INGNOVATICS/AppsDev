@@ -1,0 +1,26 @@
+<ion-header>
+    <ion-toolbar>
+      <ion-buttons item-start>
+        <button ion-button icon-only color="secondary" (click)="cerrarModal()">
+          <ion-icon name="arrow-dropleft-circle"></ion-icon>
+        </button>
+      </ion-buttons>
+      <ion-title>Tendencia del Indicador</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+<ion-content padding>
+
+  <ion-card >
+    <ion-card-header>
+      Programado Vs. Avanzado
+    </ion-card-header>
+    <ion-card-content>
+      <canvas #lineCanvas height="100%"></canvas>
+    </ion-card-content>
+    </ion-card>
+
+    <small>Periodicidad:{{ metaSvc.periodicidadIndicador }}</small>
+    <small>Tendencia: {{metaSvc.tendenciaIndicador}}</small>
+    <small>Acumulable: {{metaSvc.indicadorAcumula}}</small>
+</ion-content>

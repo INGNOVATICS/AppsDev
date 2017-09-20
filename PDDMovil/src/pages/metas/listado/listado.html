@@ -1,0 +1,24 @@
+<ion-header>
+	<ion-navbar>
+		<ion-title>
+			Listado de Metas
+		</ion-title>
+	</ion-navbar>
+</ion-header>
+
+<ion-content >
+		 <ion-searchbar (ionInput)="getItems($event)"></ion-searchbar>
+	<ion-list>
+		<ion-item text-center text-wrap >{{ metaSvc.dependencia }}</ion-item>
+				<ion-item class="text" *ngFor="let meta of items">
+			<ion-icon [name]="meta.iconoEstadoMeta"
+				item-start [color]="meta.colorEstadoMeta">
+			</ion-icon>
+			<h6  text-wrap>{{ meta.tituloMeta }}</h6>
+			<p>{{ meta.descEstadoMeta }}</p>
+			<button ion-button clear item-end [navPush]="pagDetalle" [navParams]="{ 'meta':meta }">
+				<ion-icon name="play"></ion-icon>
+			</button>
+		</ion-item>
+	</ion-list>
+</ion-content>

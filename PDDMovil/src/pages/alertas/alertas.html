@@ -1,0 +1,25 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Alertas</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+  <ion-card *ngFor="let meta of metaSvc.alertaEventos; let i=index">
+    <ion-card-header text-wrap><h6>{{ meta.tituloMeta }}</h6></ion-card-header>
+    <ion-list no-padding>
+       <ion-item *ngFor="let evento of meta.eventos" >
+          <ion-icon [name]="evento.idEstadoVencimiento == 0 ? 'timer': 'radio-button-on'" 
+                    [color]="evento.idEstadoVencimiento == 0 ? 'warning': 'danger'"
+                    item-start></ion-icon>
+        <small text-wrap>{{ evento.tituloEvento }}</small><br>
+        <small>{{ evento.fechaProgramada | date: 'dd/MM/yyyy' }}</small>
+        <small>({{ evento.estadoVencimiento }})</small>
+      </ion-item>
+    </ion-list>
+
+  </ion-card>
+</ion-content>
