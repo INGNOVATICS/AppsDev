@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavParams, ViewController } from 'ionic-angular';
+import { IonicPage, NavParams, ViewController, ToastController } from 'ionic-angular';
 import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database';
 import {UsuarioProvider} from '../../../../providers/usuario/usuario';
 interface mensaje {
@@ -19,12 +19,19 @@ export class ConsultaPage {
   mensaje:string ="";
   mensajes: FirebaseListObservable<any>;
 
-  constructor(public navParams: NavParams, private viewCtrl: ViewController, private afDB: AngularFireDatabase, private usrSvc:UsuarioProvider) {
+  constructor(public navParams: NavParams, private viewCtrl: ViewController, 
+              private afDB: AngularFireDatabase, private usrSvc:UsuarioProvider,
+              private toastCtrl: ToastController) {
     this.meta = this.navParams.get("meta");
     console.log(this.meta);
   }
 
   cerrarModal(){
+    let toast = this.toastCtrl.create({
+      message: 'Su mensaje ha sido guardado',
+      duration: 3000,
+      position: 'middle'
+    }).present();
     this.viewCtrl.dismiss();
   }
 

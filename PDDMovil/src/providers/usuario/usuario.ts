@@ -41,11 +41,12 @@ export class UsuarioProvider {
 
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
+    // headers.append('access-control-allow-origin','*');
 
     return this.http.post(this.urlLogin, JSON.stringify(this.jsonUser),{headers:headers})
                     .map(response =>{
                       let userData = response.json();
-                      // console.log(userData);
+                       console.log(userData);
                       if (userData.error){
                         this.alertCtrl.create({
                           title: "Error en Login",
@@ -55,7 +56,9 @@ export class UsuarioProvider {
                       }else{
                         this.token = userData.token;
                         this.idUsuario = userData.idUsuario; 
-                        this.idDependencia = userData.idDependencia;                        
+                        this.idDependencia = userData.idDependencia; 
+                        this.fbLogin = this.jsonUser.userName+this.domain;
+                        this.fbPass = this.jsonUser.userName;                       
                         //Guardar en Storage
                         this.guardarEnStorage();
                       }
@@ -63,6 +66,18 @@ export class UsuarioProvider {
 
 
   }
+
+   async doLoginFirebase(){
+     try {
+       const result = await this.afAuth.auth.signInWithEmailAndPassword(this.fbLogin, this.fbPass);
+       console.log(result);
+     }
+     catch(e){
+       console.log("se produjo un error");
+       console.error(e);
+     }
+
+   }
 
   doLogout(){
     this.token = null;
@@ -81,15 +96,15 @@ export class UsuarioProvider {
     if (this.platform.is("cordova")){
       this.storage.set('token',this.token);
       this.storage.set('userId', this.idUsuario);
-      this.storage.set('fbLogin', this.jsonUser.userName+this.domain);
-      this.storage.set('fbPass', this.jsonUser.userName);
+      this.storage.set('fbLogin', this.fbLogin);
+      this.storage.set('fbPass', this.fbPass);
       this.storage.set('idDependencia', this.idDependencia);      
     }else{
       if( this.token ){
       localStorage.setItem("token", this.token);
       localStorage.setItem("userId", this.idUsuario);
-      localStorage.setItem("fbLogin", this.jsonUser.userName+this.domain);
-      localStorage.setItem("fbPass", this.jsonUser.userName);
+      localStorage.setItem("fbLogin", this.fbLogin);
+      localStorage.setItem("fbPass", this.fbPass);
       localStorage.setItem("idDependencia", this.idDependencia);
       }else {
         localStorage.removeItem("token");

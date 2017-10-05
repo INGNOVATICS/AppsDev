@@ -14,12 +14,12 @@
 
 <ion-content padding>
 <ion-card>
-  <ion-card-header>
-    {{meta.tituloMeta}}
+  <ion-card-header text-wrap text-center>
+   <h6> {{meta.tituloMeta}} </h6> 
   </ion-card-header>
   <ion-list>
     <ion-item>
-      <ion-textarea aria-placeholder="ASD" name="mensaje" [(ngModel)]="mensaje"></ion-textarea>
+      <ion-textarea placeholder="Escriba aquí su consulta" name="mensaje" [(ngModel)]="mensaje"></ion-textarea>
     </ion-item>
     <ion-item>
       <button ion-button class="submit-btn" 

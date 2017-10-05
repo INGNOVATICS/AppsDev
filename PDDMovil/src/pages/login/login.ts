@@ -39,6 +39,10 @@ export class LoginPage {
     this.usrSvc.doLogin(this.userName, this.userKey)
     .subscribe(userData => {
       if (this.usrSvc.isLogged()){
+
+        console.log(this.usrSvc.fbLogin);
+
+        this.usrSvc.doLoginFirebase();
         
         this.navCtrl.setRoot(HomePage);
       }
