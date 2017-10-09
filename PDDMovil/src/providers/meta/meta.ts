@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
- import { ToastController } from 'ionic-angular';
+import { ToastController } from 'ionic-angular';
 import {Http} from '@angular/http';
 import 'rxjs/add/operator/map';
 import { MetaModel } from '../../../src/app/models/meta_model';
@@ -19,11 +19,13 @@ export class MetaProvider {
   public indicadorAcumula: string;
   public tendenciaIndicador: string;
   public periodicidadIndicador: string;
+  public countAlertas: number = 0;
   private urlEstados: string = "http://192.99.14.27:8089/santamarta/sigob/metas/resumen/";
   private urlMetas: string = "http://192.99.14.27:8089/santamarta/sigob/metas/";
   private urlEventos: string = "http://192.99.14.27:8089/santamarta/sigob/eventos?idmeta=";
   private urlPeriodos: string = "http://192.99.14.27:8089/santamarta/sigob/indicadores/";
   private urlAlertas: string = "http://192.99.14.27:8089/santamarta/sigob/eventos/";
+
 
   constructor(public http: Http,
               private usrService: UsuarioProvider,
@@ -44,6 +46,7 @@ export class MetaProvider {
         /////////////////
 
       }else {
+        this.estados = [];
         if( data.estadoMetas instanceof Array )
           this.estados = data.estadoMetas.slice();
         else
@@ -53,12 +56,14 @@ export class MetaProvider {
       resolve();
     },
     err =>{ reject();
+      if (this.usrService.token){
       let toast = this.toastCtrl.create({
-        message: 'No se encontraron metas para el usuario actual',
+        message: 'No se encontraron metas para el usuario actual. Vaya a configuración y pruebe seleccionar una dependencia.',
         duration: 3000,
         position: 'middle'
       }).present();
     }
+  }
   )
   });
 
@@ -160,8 +165,9 @@ export class MetaProvider {
          //console.log(this.alertas)
          console.log(this.alertaEventos);
         }
+        this.countAlertas = this.alertaEventos.length;
         resolve();
-      })
+      }, err => this.countAlertas = 0)
     });
     return promiseAlertas;
   }

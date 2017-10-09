@@ -1,11 +1,12 @@
 import { Component, ViewChild } from '@angular/core';
-import { IonicPage, NavController, App } from 'ionic-angular';
+import { IonicPage, NavController, ModalController } from 'ionic-angular';
 //Charts
 import { Chart } from 'chart.js';
 //Servicios
 import { MetaProvider } from '../../providers/meta/meta';
 import { UsuarioProvider } from '../../providers/usuario/usuario';
 import { LoginPage } from '../login/login';
+import { ConfiguracionPage } from '../configuracion/configuracion';
 
 
 @IonicPage()
@@ -24,29 +25,44 @@ export class ResumenPage {
 
   doughnutChart: any;
 
-  constructor(private metaSvc: MetaProvider, private usrSvc: UsuarioProvider, private navCtrl: NavController, private app: App) { 
-    this.metaSvc.getEstadoMetasDependencia()
-                  .then( () =>{
-                    
-                    for (let estadoMetas of this.metaSvc.estados){
-                      //console.log(estadoMetas.cantidad);
-                      this.estadoLabels.push(estadoMetas.estado);
-                      this.estadoCantidad.push(estadoMetas.cantidad);
-                      this.estadoColor.push(estadoMetas.idColor);
-                      this.estadoColorHover.push(this.ColorLuminance(estadoMetas.idColor, 0.5));
-                    };
-                    this.cargarChart();
-                  } )
-                  .catch( () => console.log("error") )
+  constructor(private metaSvc: MetaProvider, private usrSvc: UsuarioProvider, 
+              private navCtrl: NavController, private modalCtrl: ModalController) { 
 
+              this.cargarResumen();
    }
 
-   salir(){
-     this.usrSvc.doLogout();
-    //  this.navCtrl.setRoot(LoginPage);
-    //  this.navCtrl.popToRoot();
-     this.app.getRootNav().setRoot(LoginPage);
-    
+   cargarResumen(){
+    this.estadoLabels = [];
+    this.estadoCantidad = [];
+    this.estadoColor = [];
+    this.estadoColorHover = [];
+    this.metaSvc.getEstadoMetasDependencia()
+    .then( () =>{
+      
+      for (let estadoMetas of this.metaSvc.estados){
+        //console.log(estadoMetas.cantidad);
+        this.estadoLabels.push(estadoMetas.estado);
+        this.estadoCantidad.push(estadoMetas.cantidad);
+        this.estadoColor.push(estadoMetas.idColor);
+        this.estadoColorHover.push(this.ColorLuminance(estadoMetas.idColor, 0.5));
+      };
+      this.cargarChart();
+    } )
+    .catch( () => console.log("error") )
+   }
+
+   showConfig(){
+    let configModal = this.modalCtrl.create( ConfiguracionPage );
+    configModal.present();
+    configModal.onDidDismiss( cambio => {
+      console.log(this.usrSvc.idDependencia);
+      this.cargarResumen();
+
+      this.metaSvc.getAlertas()
+      .then(() => { //Cambiar alertas 
+      console.log(this.metaSvc.countAlertas); }
+      );
+    })
    }
 
   cargarChart(){

@@ -14,6 +14,7 @@ import {TendenciaPage} from '../pages/metas/detalle/detalle-indicador/tendencia/
 import { CalendarioPage } from '../pages/metas/detalle/calendario-eventos/calendario/calendario';
 import { LoginPage } from '../pages/login/login';
 import { ConsultaPage } from '../pages/metas/detalle/consulta/consulta';
+import { ConfiguracionPage } from '../pages/configuracion/configuracion'
 
 
 import { MyApp } from './app.component';
@@ -40,7 +41,8 @@ import { UsuarioProvider } from '../providers/usuario/usuario';
     TendenciaPage,
     CalendarioPage,
     LoginPage,
-    ConsultaPage
+    ConsultaPage,
+    ConfiguracionPage
   ],
   imports: [
     BrowserModule,
@@ -62,7 +64,8 @@ import { UsuarioProvider } from '../providers/usuario/usuario';
     TendenciaPage,
     CalendarioPage,
     LoginPage,
-    ConsultaPage
+    ConsultaPage,
+    ConfiguracionPage
   ],
   providers: [
     StatusBar,

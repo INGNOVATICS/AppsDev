@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Http, Headers } from '@angular/http';
-import { AlertController, NavController, Platform } from 'ionic-angular';
+import { AlertController, NavController, Platform, ToastController } from 'ionic-angular';
 import 'rxjs/add/operator/map';
 import { Storage } from '@ionic/storage';
 import { AngularFireAuth } from 'angularfire2/auth';
@@ -18,17 +18,20 @@ export class UsuarioProvider {
    fbLogin:string;
    fbPass:string;
    idDependencia:string;
+   otrasDependencias: any = [];
    
    public jsonUser: any = {};
 
-  urlLogin = 'http://192.99.14.27:8089/santamarta/sigob/usuarios/login';
+  private urlLogin: string = 'http://192.99.14.27:8089/santamarta/sigob/usuarios/login';
+  private urlOtrasDependencias: string = "http://192.99.14.27:8089/santamarta/sigob/usuarios/seguimiento/";
   domain:string = '@sigobsmr.gov.co';
 
   constructor(public http: Http, 
               public alertCtrl: AlertController,
               private platform: Platform,
               private storage: Storage,
-              private afAuth:AngularFireAuth
+              private afAuth:AngularFireAuth,
+              private toastCtrl: ToastController
               ) {
     //cargar desde el storage los datos del usuario
     console.log('Hello UsuarioProvider Provider');
@@ -173,6 +176,54 @@ export class UsuarioProvider {
     }else{
       return false;
     }
+  }
+
+  cambiarDependencia(idNuevaDependencia: string){
+    this.idDependencia = idNuevaDependencia;
+    if (this.platform.is("cordova")){
+      this.storage.set('idDependencia', this.idDependencia);      
+    }else{
+      if( this.token ){
+      localStorage.setItem("idDependencia", this.idDependencia);
+      }else {
+        localStorage.removeItem("idDependencia");
+      }
+    }
+
+  }
+
+  getOtrasDependencias(){
+    this.otrasDependencias = [];
+    let promiseOtrasDependencias = new Promise((resolve, reject) => {
+
+      return this.http.get(this.urlOtrasDependencias+this.idUsuario)
+      .map( res => res.json() )
+      .subscribe( data => {
+        console.log(data.dependencias);
+      if(data.dependencias instanceof Array){
+        this.otrasDependencias = data.dependencias.slice();
+        console.log("Array");
+        console.log(this.otrasDependencias);
+      }
+      else {
+        this.otrasDependencias[0] = data.dependencias;
+        console.log("no Array");
+      }
+      
+      resolve();
+      },
+    err => {
+      reject();
+      let toast = this.toastCtrl.create({
+        message: 'Error cargando dependencias.',
+        duration: 3000,
+        position: 'middle'
+      }).present();
+
+      });
+
+    });
+    return promiseOtrasDependencias;    
   }
 
   // async setupFirebase(){

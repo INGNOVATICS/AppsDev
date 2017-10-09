@@ -5,6 +5,7 @@ import {NavController} from 'ionic-angular';
 import {DetallePage} from '../detalle/detalle';
 
 import { MetaProvider } from '../../../providers/meta/meta';
+import { UsuarioProvider } from '../../../providers/usuario/usuario';
 
 
 @IonicPage()
@@ -17,16 +18,18 @@ export class ListadoPage {
   pagDetalle: any = DetallePage;
   searchQuery: string = ''; //Search
   items: any[]; //Search
+  dependenciaActual: string;
   
   constructor(public metaSvc: MetaProvider,
               public navCtrl: NavController,
-              private loadingCtrl: LoadingController) {
-                
+              private loadingCtrl: LoadingController,
+              private usrSvc: UsuarioProvider) {
+                this.dependenciaActual = this.usrSvc.idDependencia;
                 this.initializeItems();
                }
 
   initializeItems(){
-
+  
   let loader = this.loadingCtrl.create({
     content: "Cargando metas"
   });
@@ -37,6 +40,7 @@ export class ListadoPage {
           loader.dismiss();
           console.log(resp);
           this.items = this.metaSvc.metasDependencia; //Search
+          this.dependenciaActual = this.usrSvc.idDependencia;
         
         } //console.log(this.metaSvc.metasDependencia)
         )
@@ -58,6 +62,15 @@ getItems(ev: any) {
     })
   }
   else {this.initializeItems()}
+}
+
+ionViewWillEnter(){
+  console.log(this.usrSvc.idDependencia+" - "+this.usrSvc.idUsuario+" - "+this.dependenciaActual);
+  // if (this.usrSvc.idDependencia != this.usrSvc.idUsuario || this.usrSvc.idDependencia != this.dependenciaActual){
+    if (this.usrSvc.idDependencia != this.dependenciaActual){
+    // this.dependenciaActual = this.usrSvc.idDependencia;
+    this.initializeItems();
+  }
 }
 
 }
