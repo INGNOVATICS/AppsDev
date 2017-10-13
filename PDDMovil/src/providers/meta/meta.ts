@@ -93,17 +93,33 @@ export class MetaProvider {
 
   getEventosMeta(idMeta: number){
       this.eventosMeta = [];
+      let tempEventos: any[] = [];
       let PromiseEventos = new Promise(( resolve, reject ) => {
       return this.http.get( this.urlEventos + idMeta )
       .map( res => res.json() )
       .subscribe( data => {
-        if ( data.error ){
-          //bbbbbbb
-        }else {
-          this.eventosMeta.push(data);
-        }
+        this.eventosMeta.push(data);
+       if (data.eventos instanceof Array){
+        this.eventosMeta[0].eventos = data.eventos.slice();
+              
+      }
+       else {
+        
+        tempEventos[0] = data.eventos;
+        this.eventosMeta[0].eventos = tempEventos;
+        
+      }
+        console.log(this.eventosMeta);
         resolve();
-      })
+      },
+    err =>{
+      reject();
+      // let toast = this.toastCtrl.create({
+      //   message: 'Error Cargando Eventos.',
+      //   duration: 3000,
+      //   position: 'middle'
+      // }).present();
+    })
     });
     return PromiseEventos;
   }
@@ -199,11 +215,16 @@ export class MetaProvider {
 
   creaObjetos(data){
       let i = 0;
+      this.metasDependencia = [];
+      if (data.metas instanceof Array){
       for (let meta of data.metas){
-        //let objeto = new MetaModel();
+        console.log(meta);
         this.metasDependencia[i] = new MetaModel(meta, data.idDependencia, data.nombreDependencia, data.jefeDependencia);
         i++;
       }
+    }else {
+      this.metasDependencia[i] = new MetaModel(data.metas, data.idDependencia, data.nombreDependencia, data.jefeDependencia);
+    }
     }
 }
 

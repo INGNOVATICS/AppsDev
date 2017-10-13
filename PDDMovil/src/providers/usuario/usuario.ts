@@ -4,6 +4,7 @@ import { AlertController, NavController, Platform, ToastController } from 'ionic
 import 'rxjs/add/operator/map';
 import { Storage } from '@ionic/storage';
 import { AngularFireAuth } from 'angularfire2/auth';
+import { Network } from '@ionic-native/network';
 
 interface usuario{
   userName: string,
@@ -18,6 +19,8 @@ export class UsuarioProvider {
    fbLogin:string;
    fbPass:string;
    idDependencia:string;
+   emailUsuario: string;
+   nombreUsuario: string;
    otrasDependencias: any = [];
    
    public jsonUser: any = {};
@@ -31,7 +34,8 @@ export class UsuarioProvider {
               private platform: Platform,
               private storage: Storage,
               private afAuth:AngularFireAuth,
-              private toastCtrl: ToastController
+              private toastCtrl: ToastController,
+              private network: Network
               ) {
     //cargar desde el storage los datos del usuario
     console.log('Hello UsuarioProvider Provider');
@@ -45,7 +49,8 @@ export class UsuarioProvider {
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
     // headers.append('access-control-allow-origin','*');
-
+    if (this.network.type !=='none'){
+      console.log(this.network.type);
     return this.http.post(this.urlLogin, JSON.stringify(this.jsonUser),{headers:headers})
                     .map(response =>{
                       let userData = response.json();
@@ -61,11 +66,21 @@ export class UsuarioProvider {
                         this.idUsuario = userData.idUsuario; 
                         this.idDependencia = userData.idDependencia; 
                         this.fbLogin = this.jsonUser.userName+this.domain;
-                        this.fbPass = this.jsonUser.userName;                       
+                        this.fbPass = this.jsonUser.userName; 
+                        this.emailUsuario = userData.email;
+                        this.nombreUsuario = userData.funcionario;                      
                         //Guardar en Storage
                         this.guardarEnStorage();
                       }
                     })
+                  } else {
+                    console.log(this.network.type);
+                    let toast = this.toastCtrl.create({
+                      message: 'Sin conexión a Internet',
+                      duration: 3000,
+                      position: 'middle'
+                    }).present();
+                  }
 
 
   }
@@ -101,7 +116,9 @@ export class UsuarioProvider {
       this.storage.set('userId', this.idUsuario);
       this.storage.set('fbLogin', this.fbLogin);
       this.storage.set('fbPass', this.fbPass);
-      this.storage.set('idDependencia', this.idDependencia);      
+      this.storage.set('idDependencia', this.idDependencia);  
+      this.storage.set('email', this.emailUsuario);
+      this.storage.set('userName', this.nombreUsuario);    
     }else{
       if( this.token ){
       localStorage.setItem("token", this.token);
@@ -109,12 +126,16 @@ export class UsuarioProvider {
       localStorage.setItem("fbLogin", this.fbLogin);
       localStorage.setItem("fbPass", this.fbPass);
       localStorage.setItem("idDependencia", this.idDependencia);
+      localStorage.setItem("email", this.emailUsuario);
+      localStorage.setItem("userName", this.nombreUsuario);
       }else {
         localStorage.removeItem("token");
         localStorage.removeItem("userId");
         localStorage.removeItem("fbLogin");
         localStorage.removeItem("fbPass");
         localStorage.removeItem("idDependencia");
+        localStorage.removeItem("email");
+        localStorage.removeItem("userName");
       }
     }
     // this.setupFirebase();
@@ -152,6 +173,18 @@ export class UsuarioProvider {
                                   .then(fbPass => {
                                     if(fbPass){ this.fbPass = fbPass}
 
+                                  })
+
+                      this.storage.get("email")
+                                  .then(email => {
+                                    if(email){ this.emailUsuario = email}
+
+                                  })
+                      
+                      this.storage.get("userName")
+                                    .then(userName => {
+                                      if(userName){ this.nombreUsuario = userName}
+
                                      resolve();
                                   })                                  
                     })
@@ -163,6 +196,8 @@ export class UsuarioProvider {
           this.fbLogin = localStorage.getItem("fbLogin");
           this.fbPass = localStorage.getItem("fbPass");
           this.idDependencia = localStorage.getItem("idDependencia");
+          this.emailUsuario = localStorage.getItem("email");
+          this.nombreUsuario = localStorage.getItem("userName");
         }
         resolve();
       }

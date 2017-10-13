@@ -8,7 +8,7 @@ import { MetaProvider } from '../../../../../providers/meta/meta';
   templateUrl: 'calendario.html',
 })
 export class CalendarioPage {
-  
+  error: boolean = false;
   constructor(public navParams: NavParams,
               public viewCtrl: ViewController,
               public metaSvc: MetaProvider) {}
@@ -19,7 +19,9 @@ export class CalendarioPage {
     //console.log("id de meta:"+idMeta);
     this.metaSvc.getEventosMeta(idMeta)
     .then( () => console.log(this.metaSvc.eventosMeta) 
-    );
+    )
+    .catch(()=>      this.error = true
+     );
   }
 
 cerrarModal(){

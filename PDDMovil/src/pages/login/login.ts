@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ViewController, LoadingController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ViewController, LoadingController, ToastController } from 'ionic-angular';
 import { UsuarioProvider } from '../../providers/usuario/usuario';
 import { HomePage } from '../home/home';
 
@@ -17,7 +17,8 @@ export class LoginPage {
               public navParams: NavParams,
               private usrSvc: UsuarioProvider,
               private viewCtrl: ViewController,
-              private loadingCtrl: LoadingController) {
+              private loadingCtrl: LoadingController,
+              private toastCtrl: ToastController) {
     this.usrSvc.cargarDelStorage()
                .then( () => {
                   if(this.usrSvc.isLogged()){
@@ -47,7 +48,16 @@ export class LoginPage {
         this.navCtrl.setRoot(HomePage);
       }
       loader.dismiss();
-    })
+    },
+    err =>{
+      loader.dismiss();
+      let toast = this.toastCtrl.create({
+        message: 'No fue posible la conexión. Verifique su acceso a Internet',
+        duration: 3000,
+        position: 'middle'
+      }).present();
+    }
+  )
   }
 
 }

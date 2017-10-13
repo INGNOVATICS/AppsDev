@@ -38,6 +38,7 @@ export class ListadoPage {
   this.metaSvc.getMetasDependencia()
         .then( (resp) => {
           loader.dismiss();
+          this.items = [];
           console.log(resp);
           this.items = this.metaSvc.metasDependencia; //Search
           this.dependenciaActual = this.usrSvc.idDependencia;

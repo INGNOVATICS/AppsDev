@@ -22,4 +22,14 @@
     </ion-list>
 
   </ion-card>
+  <ion-card *ngIf="metaSvc.alertaEventos.length==0" >
+      <ion-item>
+          <ion-icon name="ribbon" item-start color="secondary"></ion-icon>
+          <h2>No hay alertas</h2>
+      </ion-item>
+        <ion-card-content>
+          <p>No tienes eventos vencidos ni próximos a vencer en los siguientes 8 días</p>
+        </ion-card-content>
+  </ion-card>
+  
 </ion-content>

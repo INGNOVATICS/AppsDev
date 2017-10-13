@@ -11,7 +11,8 @@
 
 
 <ion-content >
-	<ion-list *ngFor="let meta of metaSvc.eventosMeta">
+  <div *ngIf="!error"> 
+	<ion-list *ngFor="let meta of metaSvc.eventosMeta" >
     <ion-item text-center text-wrap >{{ meta.tituloMeta }}</ion-item>
 				<ion-item class="text" *ngFor="let evento of meta.eventos">
 			<ion-icon name="radio-button-on"
@@ -33,5 +34,15 @@
         </ion-row>
       </ion-grid>
 		</ion-item>
-	</ion-list>
+  </ion-list>
+  </div>
+  <ion-card *ngIf="error">
+    <ion-item>
+        <ion-icon name="warning" item-start color="danger"></ion-icon>
+        <h2>No hay eventos que mostrar</h2>
+    </ion-item>
+      <ion-card-content>
+        <p>Al parecer no se han cargado eventos en la meta seleccionada.</p>
+      </ion-card-content>
+  </ion-card>
 </ion-content>

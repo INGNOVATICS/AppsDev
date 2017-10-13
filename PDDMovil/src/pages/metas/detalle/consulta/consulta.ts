@@ -1,11 +1,13 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavParams, ViewController, ToastController } from 'ionic-angular';
-import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database';
-import {UsuarioProvider} from '../../../../providers/usuario/usuario';
-interface mensaje {
-  idCoordinador: string;
+import { UsuarioProvider } from '../../../../providers/usuario/usuario';
+import { MessageProvider } from '../../../../providers/message/message';
 
-}
+
+// interface mensaje {
+//   idCoordinador: string;
+
+// }
 
 @IonicPage()
 @Component({
@@ -17,32 +19,36 @@ export class ConsultaPage {
   jsonMensaje:any = {};
   meta:any;
   mensaje:string ="";
-  mensajes: FirebaseListObservable<any>;
-
+  
   constructor(public navParams: NavParams, private viewCtrl: ViewController, 
-              private afDB: AngularFireDatabase, private usrSvc:UsuarioProvider,
-              private toastCtrl: ToastController) {
+              private usrSvc:UsuarioProvider,
+              private toastCtrl: ToastController, private msgSvc: MessageProvider) {
     this.meta = this.navParams.get("meta");
     console.log(this.meta);
+    this.msgSvc.getMessages();
   }
 
-  cerrarModal(){
+  cerrarModal(messageSent: boolean){
+    if (messageSent){
     let toast = this.toastCtrl.create({
       message: 'Su mensaje ha sido guardado',
       duration: 3000,
       position: 'middle'
     }).present();
+  }
     this.viewCtrl.dismiss();
   }
 
   sendMessage(){
-    console.log(this.mensaje);
-    this.jsonMensaje.requester = this.usrSvc.idUsuario;
-    this.jsonMensaje.message = this.mensaje;
-    this.mensajes = this.afDB.list('/mensajes/'+this.meta.idCoordinador+'/'+this.meta.idMeta);
-    this.mensajes.push(this.jsonMensaje);
+    // console.log(this.mensaje);
+    // this.jsonMensaje.requesterId = this.usrSvc.idUsuario;
+    // this.jsonMensaje.message = this.mensaje;
+    // this.jsonMensaje.status = 0; //0 = open, 1 = closed
 
-    this.cerrarModal();
+    // this.msgSvc.createMessage(this.meta, this.jsonMensaje);
+    this.msgSvc.createMessage(this.meta, this.mensaje);
+
+    this.cerrarModal(true);
   }
 
 }

@@ -1,3 +1,4 @@
+import { MensajesPage } from './../pages/mensajes/mensajes';
 import { BrowserModule } from '@angular/platform-browser';
 import { ErrorHandler, NgModule } from '@angular/core';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
@@ -26,9 +27,11 @@ import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { AngularFireAuthModule } from 'angularfire2/auth';
 import { firebaseConfig } from '../config/firebase.config';
 import { ScreenOrientation } from '@ionic-native/screen-orientation';
+import { Network } from '@ionic-native/network';
 //Servicios
 import { MetaProvider } from '../providers/meta/meta';
 import { UsuarioProvider } from '../providers/usuario/usuario';
+import { MessageProvider } from '../providers/message/message';
 
 @NgModule({
   declarations: [
@@ -42,7 +45,8 @@ import { UsuarioProvider } from '../providers/usuario/usuario';
     CalendarioPage,
     LoginPage,
     ConsultaPage,
-    ConfiguracionPage
+    ConfiguracionPage,
+    MensajesPage
   ],
   imports: [
     BrowserModule,
@@ -65,14 +69,17 @@ import { UsuarioProvider } from '../providers/usuario/usuario';
     CalendarioPage,
     LoginPage,
     ConsultaPage,
-    ConfiguracionPage
+    ConfiguracionPage,
+    MensajesPage
   ],
   providers: [
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     MetaProvider,
-    UsuarioProvider
+    UsuarioProvider,
+    Network,
+    MessageProvider
   ]
 })
 export class AppModule {}

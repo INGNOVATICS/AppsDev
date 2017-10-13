@@ -1,7 +1,10 @@
+import { MensajesPage } from './../mensajes/mensajes';
 import { Component } from '@angular/core';
 import {MetaProvider} from '../../providers/meta/meta';
 import { UsuarioProvider } from '../../providers/usuario/usuario';
 import { ModalController } from 'ionic-angular';
+
+import { ToastController } from 'ionic-angular';
 
 //Importar las paginas de Tabs
 
@@ -19,14 +22,17 @@ export class HomePage {
   tab1: any;
   tab2: any;
   tab3: any;
+  tab4: any;
   countAlertas: number;
 
   constructor( private metaSvc:MetaProvider,
                private usrSvc: UsuarioProvider,
-               private modalCtrl: ModalController ) {
+               private modalCtrl: ModalController,
+               private toastCtrl: ToastController ) {
     this.tab1 = ResumenPage;
     this.tab2 = ListadoPage;
     this.tab3 = AlertasPage;
+    this.tab4 = MensajesPage;
 
     this.metaSvc.getAlertas()
     .then(() => {//console.log(this.metaSvc.alertaEventos); 
@@ -35,11 +41,12 @@ export class HomePage {
   
   }
 
-ionViewDidLoad(){
+ionViewWillLeave(){
   
-      // this.metaSvc.getAlertas()
-      // .then(() => {//console.log(this.metaSvc.alertaEventos); 
-      // this.countAlertas = this.metaSvc.alertaEventos.length }
-      // );
+  let toast = this.toastCtrl.create({
+    message: 'Adios',
+    duration: 3000,
+    position: 'middle'
+  }).present();
     }
   }
