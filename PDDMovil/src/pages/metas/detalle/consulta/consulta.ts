@@ -25,7 +25,7 @@ export class ConsultaPage {
               private toastCtrl: ToastController, private msgSvc: MessageProvider) {
     this.meta = this.navParams.get("meta");
     console.log(this.meta);
-    this.msgSvc.getMessages();
+    //this.msgSvc.getMessages();
   }
 
   cerrarModal(messageSent: boolean){
@@ -36,6 +36,15 @@ export class ConsultaPage {
       position: 'middle'
     }).present();
   }
+    else {
+      let toast = this.toastCtrl.create({
+        message: 'Error enviando mensaje. Revise su conexión',
+        duration: 3000,
+        position: 'middle'
+      }).present(); 
+
+    }
+
     this.viewCtrl.dismiss();
   }
 
@@ -46,9 +55,10 @@ export class ConsultaPage {
     // this.jsonMensaje.status = 0; //0 = open, 1 = closed
 
     // this.msgSvc.createMessage(this.meta, this.jsonMensaje);
-    this.msgSvc.createMessage(this.meta, this.mensaje);
-
+   if (this.msgSvc.createMessage(this.meta, this.mensaje))
     this.cerrarModal(true);
+   else
+    this.cerrarModal(false); 
   }
 
 }

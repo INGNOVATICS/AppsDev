@@ -52,6 +52,8 @@ export class MetaProvider {
         else
           this.estados[0] = data.estadoMetas;
         console.log(data);
+        this.dependencia = data.nombreDependencia;
+
       }
       resolve();
     },

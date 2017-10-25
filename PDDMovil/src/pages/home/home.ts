@@ -1,3 +1,4 @@
+import { MessageProvider } from './../../providers/message/message';
 import { MensajesPage } from './../mensajes/mensajes';
 import { Component } from '@angular/core';
 import {MetaProvider} from '../../providers/meta/meta';
@@ -24,11 +25,13 @@ export class HomePage {
   tab3: any;
   tab4: any;
   countAlertas: number;
+  countRecibidos: number = 0;
 
   constructor( private metaSvc:MetaProvider,
                private usrSvc: UsuarioProvider,
                private modalCtrl: ModalController,
-               private toastCtrl: ToastController ) {
+               private toastCtrl: ToastController,
+               private msjSvc: MessageProvider ) {
     this.tab1 = ResumenPage;
     this.tab2 = ListadoPage;
     this.tab3 = AlertasPage;
@@ -38,6 +41,18 @@ export class HomePage {
     .then(() => {//console.log(this.metaSvc.alertaEventos); 
     this.countAlertas = this.metaSvc.alertaEventos.length }
     );
+
+    this.msjSvc.getReceivedMessages();
+    //this.msjSvc.getSentMessages();
+    // this.msjSvc.listadoMensajesRecibidos.forEach(items => { 
+    //   items.forEach(item => {
+    //     // this.countRecibidos = 0;
+    //     if(item.status == 0)
+    //       this.countRecibidos++;
+    //   })
+    //  })
+
+
   
   }
 

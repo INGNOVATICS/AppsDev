@@ -11,15 +11,21 @@ import { Observable } from 'rxjs/Observable';
 })
 export class MensajesPage {
 
-  recibidos: Observable<any[]>;
-  enviados: Observable<any[]>;
-
+  bandejaDefault: string = 'recibidas';
   constructor(public navCtrl: NavController, public navParams: NavParams, private msjSvc: MessageProvider) {
   }
 
   ionViewDidEnter() {
-    this.msjSvc.getMessages();
-    console.log(this.msjSvc.listadoMensajes);
+    // this.msjSvc.getMessages();
+     console.log(this.msjSvc.listadoMensajesRecibidos);
+     console.log(this.msjSvc.listadoMensajesEnviados);
+  }
+
+  cambiarEstado(item){
+
+    let respuesta ="cualquier cosa";
+    console.log(item.$key);
+    this.msjSvc.setResponseAndClose(item.$key, respuesta);
   }
 
 }

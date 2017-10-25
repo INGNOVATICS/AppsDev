@@ -1,7 +1,7 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>Resumen de Metas</ion-title>
+    <ion-title>Metas por Estado</ion-title>
     
     <ion-buttons end>
         <!-- <button ion-button icon-only (click)="salir()"> 
@@ -18,8 +18,8 @@
 
 <ion-content >
   <ion-card >
-    <ion-card-header text-center>
-      Distribución de Metas por Estado
+    <ion-card-header text-center text-wrap>
+      {{ metaSvc.dependencia }}
     </ion-card-header>
     <ion-card-content>
       <canvas #doughnutCanvas></canvas>
