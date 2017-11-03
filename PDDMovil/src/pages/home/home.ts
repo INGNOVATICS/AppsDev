@@ -1,3 +1,5 @@
+import { Mensaje } from './../../app/models/mensajes.model';
+import { Observable } from 'rxjs/Observable';
 import { MessageProvider } from './../../providers/message/message';
 import { MensajesPage } from './../mensajes/mensajes';
 import { Component } from '@angular/core';
@@ -26,6 +28,7 @@ export class HomePage {
   tab4: any;
   countAlertas: number;
   countRecibidos: number = 0;
+  //messageList$: Observable<Mensaje[]>;
 
   constructor( private metaSvc:MetaProvider,
                private usrSvc: UsuarioProvider,
@@ -42,18 +45,8 @@ export class HomePage {
     this.countAlertas = this.metaSvc.alertaEventos.length }
     );
 
-    this.msjSvc.getReceivedMessages();
-    //this.msjSvc.getSentMessages();
-    // this.msjSvc.listadoMensajesRecibidos.forEach(items => { 
-    //   items.forEach(item => {
-    //     // this.countRecibidos = 0;
-    //     if(item.status == 0)
-    //       this.countRecibidos++;
-    //   })
-    //  })
-
-
-  
+    this.msjSvc.setMessagesLists();
+     
   }
 
 ionViewWillLeave(){

@@ -21,22 +21,30 @@
 <ion-content padding>
   <div [ngSwitch]="bandejaDefault">
 	<ion-list *ngSwitchCase="'recibidas'">
-		<!-- <ion-item class="text" *ngFor="let item of msjSvc.listadoMensajesRecibidos | async"> -->
-    <ion-item class="text" *ngFor="let item of msjSvc.listadoMensajesRecibidos">
+      <div *ngFor="let item of msjSvc.messageList$ | async">
+		<ion-item class="text" *ngIf='item.responserId == usrSvc.idUsuario'>
+      
+    <!-- <ion-item class="text" *ngFor="let item of msjRecibidos"> -->
       <h3 text-wrap>{{ item.messageText }}</h3>
       <p>De: {{ item.requesterName }}</p>
       <p text-wrap>{{ item.responseText }}</p>
       <button ion-button (click)="cambiarEstado(item)" item-end>Leer</button>
-		</ion-item>
+    
+    </ion-item>
+  </div>
   </ion-list>
+
   <ion-list *ngSwitchCase="'formuladas'">
-      <!-- <ion-item class="text" *ngFor="let item of msjSvc.listadoMensajesRecibidos | async"> -->
-      <ion-item class="text" *ngFor="let item of msjSvc.listadoMensajesEnviados">
+      <div *ngFor="let item of msjSvc.messageList$ | async">
+          <ion-item class="text" *ngIf='item.requesterId == usrSvc.idUsuario'>
+      <!-- <ion-item class="text" *ngFor="let item of msjEnviados"> -->
         <h3 text-wrap>{{ item.messageText }}</h3>
         <p>Para: {{ item.responserName }}</p>
         <p text-wrap>{{ item.responseText }}</p>
         <button ion-button (click)="cambiarEstado(item)" item-end>Aceptar</button> 
+          
       </ion-item>
+    </div>
     </ion-list>
   </div>
   <!-- <ion-card *ngIf="msjSvc.listadoMensajes.length==0" >

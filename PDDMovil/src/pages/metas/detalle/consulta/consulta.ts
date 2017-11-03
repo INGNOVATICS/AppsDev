@@ -1,3 +1,4 @@
+import { Mensaje } from './../../../../app/models/mensajes.model';
 import { Component } from '@angular/core';
 import { IonicPage, NavParams, ViewController, ToastController } from 'ionic-angular';
 import { UsuarioProvider } from '../../../../providers/usuario/usuario';
@@ -16,7 +17,7 @@ import { MessageProvider } from '../../../../providers/message/message';
 })
 export class ConsultaPage {
 
-  jsonMensaje:any = {};
+  jsonMensaje:Mensaje;
   meta:any;
   mensaje:string ="";
   
@@ -49,16 +50,26 @@ export class ConsultaPage {
   }
 
   sendMessage(){
-    // console.log(this.mensaje);
-    // this.jsonMensaje.requesterId = this.usrSvc.idUsuario;
-    // this.jsonMensaje.message = this.mensaje;
-    // this.jsonMensaje.status = 0; //0 = open, 1 = closed
+    this.jsonMensaje = {
+      messageText: this.mensaje,
+      metaId: this.meta.idMeta,
+      metaName: this.meta.descripcionMeta,
+      requesterId: this.usrSvc.idUsuario,
+      requesterName: this.usrSvc.nombreUsuario,
+      responseText: '',
+      responserId: this.meta.idCoordinador,
+      responserName: this.meta.nombreCoordinador,
+      status: 0
+    };
 
     // this.msgSvc.createMessage(this.meta, this.jsonMensaje);
-   if (this.msgSvc.createMessage(this.meta, this.mensaje))
+   this.msgSvc.createMessage(this.jsonMensaje).then(ref => {
+    if (ref.key){ 
+    console.log(ref.key);
     this.cerrarModal(true);
-   else
-    this.cerrarModal(false); 
+    }else
+    this.cerrarModal(false);
+   })
   }
 
 }
