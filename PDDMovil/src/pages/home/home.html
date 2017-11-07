@@ -2,6 +2,7 @@
     <ion-tab tabIcon="stats" tabTitle="Resumen" [root]="tab1"></ion-tab>
     <ion-tab tabIcon="clipboard" tabTitle="Metas" [root]="tab2"></ion-tab>
     <ion-tab tabIcon="nuclear" tabTitle="Alertas" [root]="tab3" [tabBadge]="metaSvc.countAlertas" tabBadgeStyle="danger"></ion-tab>
-    <ion-tab tabIcon="chatboxes" tabTitle="Consultas" [root]="tab4" [tabBadge]="msjSvc.countMensajesPendientes" tabBadgeStyle="danger"></ion-tab>
+    <ion-tab tabIcon="chatboxes" tabTitle="Consultas" [root]="tab4" 
+    [tabBadge]="msjSvc.countPendienteResponder+msjSvc.countPendienteCerrar" tabBadgeStyle="danger"></ion-tab>
     <!-- <ion-tab tabIcon="magnet" tabTitle="Force" [root]="tab4"></ion-tab> -->
   </ion-tabs>

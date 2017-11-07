@@ -27,8 +27,9 @@ export class HomePage {
   tab3: any;
   tab4: any;
   countAlertas: number;
-  countRecibidos: number = 0;
-  //messageList$: Observable<Mensaje[]>;
+  // countPendienteResponder: number = 0;
+  // countPendienteCerrar: number = 0;
+
 
   constructor( private metaSvc:MetaProvider,
                private usrSvc: UsuarioProvider,
@@ -46,13 +47,15 @@ export class HomePage {
     );
 
     this.msjSvc.setMessagesLists();
-     
+    this.msjSvc.setCountPendingMessages();
+    console.log("Responder: "+this.msjSvc.countPendienteResponder);
+    console.log("Cerrar: "+this.msjSvc.countPendienteCerrar);
   }
 
 ionViewWillLeave(){
   
   let toast = this.toastCtrl.create({
-    message: 'Adios',
+    message: 'Sesión finalizada',
     duration: 3000,
     position: 'middle'
   }).present();

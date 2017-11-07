@@ -15,31 +15,36 @@ export class MensajesPage {
   bandejaDefault: string = 'recibidas';
   msjRecibidos: Mensaje[];
   msjEnviados:  Mensaje[];
-  constructor(public navCtrl: NavController, public navParams: NavParams, private msjSvc: MessageProvider, private usrSvc: UsuarioProvider) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, 
+              private msjSvc: MessageProvider, private usrSvc: UsuarioProvider) {
+
   }
 
-  ionViewWillLoad() {
-
-    this.msjSvc.messageList$.subscribe(mensajes =>{
-      mensajes.forEach(mensaje => {
-        console.log(mensaje.requesterId +" - "+mensaje.responserId);
-        if (mensaje.requesterId == this.usrSvc.idUsuario)
-          this.msjEnviados.push(mensaje);
-        if (mensaje.responserId == this.usrSvc.idUsuario)
-          this.msjRecibidos.push(mensaje);
-      })
-      console.log(this.msjRecibidos)
-    })
-  }
-
-  cambiarEstado(item){
-
-    let respuesta ="cualquier cosa";
+  resolverTarea(item){
+    let respuesta ="Tarea resuelta";
     console.log(item);
     item.status = 1;
     item.responseText = respuesta;
-    this.msjSvc.setResponseAndClose(item)
-    .then(() => {console.log("borrados")})
+    this.msjSvc.updateTask(item)
+    .then(() => {
+      console.log("Tarea resuelta por el responsable");
+      this.msjSvc.setCountPendingMessages(); 
+      console.log("Responder: "+this.msjSvc.countPendienteResponder);
+      console.log("Cerrar: "+this.msjSvc.countPendienteCerrar);   
+    })
+    .catch(err => console.log(err))
+  }
+
+  aceptarSolucion(item){
+    console.log(item);
+    item.status = 2;
+    this.msjSvc.updateTask(item)
+    .then(() => {
+      console.log("Tarea cerrada por el solicitante");
+      this.msjSvc.setCountPendingMessages();
+      console.log("Responder: "+this.msjSvc.countPendienteResponder);
+      console.log("Cerrar: "+this.msjSvc.countPendienteCerrar);
+    })
     .catch(err => console.log(err))
   }
 

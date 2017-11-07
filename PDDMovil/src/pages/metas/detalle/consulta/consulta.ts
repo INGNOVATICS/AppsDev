@@ -39,7 +39,7 @@ export class ConsultaPage {
   }
     else {
       let toast = this.toastCtrl.create({
-        message: 'Error enviando mensaje. Revise su conexión',
+        message: 'Mensaje no enviado',
         duration: 3000,
         position: 'middle'
       }).present(); 
@@ -53,7 +53,7 @@ export class ConsultaPage {
     this.jsonMensaje = {
       messageText: this.mensaje,
       metaId: this.meta.idMeta,
-      metaName: this.meta.descripcionMeta,
+      metaName: this.meta.tituloMeta,
       requesterId: this.usrSvc.idUsuario,
       requesterName: this.usrSvc.nombreUsuario,
       responseText: '',
@@ -63,12 +63,16 @@ export class ConsultaPage {
     };
 
     // this.msgSvc.createMessage(this.meta, this.jsonMensaje);
-   this.msgSvc.createMessage(this.jsonMensaje).then(ref => {
-    if (ref.key){ 
-    console.log(ref.key);
-    this.cerrarModal(true);
-    }else
-    this.cerrarModal(false);
+   this.msgSvc.createMessage(this.jsonMensaje)
+   .then(ref => {
+      if (ref.key){ 
+      console.log(ref.key);
+      this.msgSvc.setCountPendingMessages();
+      console.log("Responder: "+this.msgSvc.countPendienteResponder);
+      console.log("Cerrar: "+this.msgSvc.countPendienteCerrar);
+      this.cerrarModal(true);
+      }else
+      this.cerrarModal(false);
    })
   }
 

@@ -11,6 +11,9 @@ export class MessageProvider {
 
   private mensajesRef = this.afDB.list<Mensaje>('/mensajes/');
   messageList$: Observable<Mensaje[]>;
+
+  countPendienteResponder: number = 0
+  countPendienteCerrar: number = 0;
  
 
   constructor(private afDB: AngularFireDatabase, private usrSvc: UsuarioProvider) { }
@@ -23,7 +26,7 @@ export class MessageProvider {
     return this.mensajesRef;  
   }
 
-  setResponseAndClose(messageItem: Mensaje){
+  updateTask(messageItem: Mensaje){
     return this.mensajesRef.update(messageItem.key, messageItem);
   }
 
@@ -33,6 +36,7 @@ export class MessageProvider {
     .snapshotChanges()
     .map(
       changes =>{
+        this.setCountPendingMessages();
         return changes.map( c => ({
           key: c.payload.key,
           ...c.payload.val()
@@ -41,6 +45,24 @@ export class MessageProvider {
         )
       }
     )
+  }
+
+  setCountPendingMessages(){
+    // this.countPendienteCerrar = 0;
+    // this.countPendienteResponder = 0;
+
+    this.messageList$.forEach(mensajes =>{
+      this.countPendienteCerrar = 0;
+      this.countPendienteResponder = 0;
+      mensajes.forEach(mensaje => {
+        if (mensaje.status===0 && mensaje.responserId == this.usrSvc.idUsuario)
+          this.countPendienteResponder++;
+        if (mensaje.status===1 && mensaje.requesterId == this.usrSvc.idUsuario)
+        this.countPendienteCerrar++;
+      })
+    })
+    console.log("Responder: "+this.countPendienteResponder);
+    console.log("Cerrar: "+this.countPendienteCerrar);
   }
 
 }

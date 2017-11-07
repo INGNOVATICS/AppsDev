@@ -24,6 +24,7 @@
       <ion-item>
         <ion-label>Dependencia</ion-label>
         <ion-select [(ngModel)]="newDependencia">
+            <!-- <ion-option value="SMR00">Todos</ion-option> -->
             <ion-option  *ngFor="let dependencia of usrSvc.otrasDependencias" [value]="dependencia.idDependencia">
               {{ dependencia.nombreDependencia }}</ion-option>
           <!-- <ion-option value="SMR02">Dirección TIC</ion-option>

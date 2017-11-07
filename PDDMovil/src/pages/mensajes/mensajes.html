@@ -22,13 +22,13 @@
   <div [ngSwitch]="bandejaDefault">
 	<ion-list *ngSwitchCase="'recibidas'">
       <div *ngFor="let item of msjSvc.messageList$ | async">
-		<ion-item class="text" *ngIf='item.responserId == usrSvc.idUsuario'>
+		<ion-item class="text" *ngIf='item.responserId == usrSvc.idUsuario && item.status == 0'>
       
     <!-- <ion-item class="text" *ngFor="let item of msjRecibidos"> -->
-      <h3 text-wrap>{{ item.messageText }}</h3>
       <p>De: {{ item.requesterName }}</p>
+      <h3 text-wrap>{{ item.messageText }}</h3>      
       <p text-wrap>{{ item.responseText }}</p>
-      <button ion-button (click)="cambiarEstado(item)" item-end>Leer</button>
+      <button ion-button (click)="resolverTarea(item)" item-end>Finalizar</button>
     
     </ion-item>
   </div>
@@ -36,12 +36,12 @@
 
   <ion-list *ngSwitchCase="'formuladas'">
       <div *ngFor="let item of msjSvc.messageList$ | async">
-          <ion-item class="text" *ngIf='item.requesterId == usrSvc.idUsuario'>
+          <ion-item class="text" *ngIf='item.requesterId == usrSvc.idUsuario && item.status<2'>
       <!-- <ion-item class="text" *ngFor="let item of msjEnviados"> -->
-        <h3 text-wrap>{{ item.messageText }}</h3>
         <p>Para: {{ item.responserName }}</p>
+        <h3 text-wrap>{{ item.messageText }}</h3>        
         <p text-wrap>{{ item.responseText }}</p>
-        <button ion-button (click)="cambiarEstado(item)" item-end>Aceptar</button> 
+        <button ion-button [disabled]="item.status==0" (click)="aceptarSolucion(item)" item-end>Aceptar</button> 
           
       </ion-item>
     </div>
