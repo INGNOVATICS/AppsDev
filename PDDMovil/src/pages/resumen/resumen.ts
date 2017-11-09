@@ -96,6 +96,9 @@ export class ResumenPage {
                         //      //"#FFCE56"
                         //  ]
                      }]
+                 },
+                 options: {
+                   responsive:true
                  }
       
              });
