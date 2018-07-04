@@ -1,0 +1,27 @@
+<div class="cabeza">
+  <h1>
+    Adulto Mayor
+  </h1>
+  <h3>
+    Programa Colombia Mayor
+  </h3>  	
+  <hr>
+</div>
+  <div class="formulario">
+  
+  <input class="form-control" type="text" placeholder="Ingrese su Cédula" [(ngModel)]="cedula">
+  <button type="button" class="btn btn-secondary btn-sm" (click)="consultarEstado()" ng-disabled="longitudCedula()">Consultar</button>
+</div>
+<div *ngIf="exito" class="informacion">
+ <p class="respuesta">Documento: {{datos.num_doc}}</p>
+ <p class="respuesta">Nombres: {{datos.nombre_completo}}</p>
+ <p class="respuesta">Estado: {{datos.estado_programa}}</p>
+ <p class="observacion">Observación: {{datos.razon_estado}}</p>
+</div>
+
+<div class="footer">
+<td>Powered by</td>
+<td><img src="assets/tic.jpeg"></td>
+<td><img src="assets/alcaldia.jpeg"></td>
+
+</div>

@@ -1,0 +1,62 @@
+<ion-header>
+  <ion-navbar color="primary" icon="paper">
+    <ion-title>
+      Encuesta Satisfacción
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+    <p *ngIf="intentoEnvio" style="color: #ea6153;">Ingrese todos los datos</p>
+<form [formGroup]="encuestaSatisfaccion">
+  <ion-item>
+    <ion-label floating>¿Pertenece a algún tipo de población?</ion-label>
+    <ion-select formControlName="poblacion">
+      <ion-option value="x" checked="true">Ninguno</ion-option>
+      <ion-option value="i">Indigena</ion-option>
+      <ion-option value="n">Negritudes</ion-option>
+      <ion-option value="m">Mujer cabeza de hogar</ion-option>
+      <ion-option value="l">LGBTI</ion-option>
+    </ion-select>
+  </ion-item>
+
+  <ion-item>
+    <ion-label floating>¿El tiempo de atención fue el esperado?</ion-label>
+    <ion-select formControlName="tiempoAtencion">
+      <ion-option value="10" checked="true">El esperado</ion-option>}
+      <ion-option value="5" >Fue un poco lento</ion-option>
+      <ion-option value="0" >Esperé demasiado</ion-option>
+    </ion-select>
+  </ion-item>
+
+  <ion-item>
+      <ion-label floating>¿Los asesores de la Oficina de Gestión para Atención al Ciudadano escucharon su inquietud?</ion-label>
+      <ion-select formControlName="escucharonInquietud">
+        <ion-option value="10" checked="true">Estuvieron muy atentos</ion-option>}
+        <ion-option value="5" >Más o menos</ion-option>
+        <ion-option value="0" >No me escucharon con atención</ion-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-item>
+        <ion-label floating>¿Los asesores de la Oficina de Gestión para la Atención al Ciudadano le ayudaron a resolver su inquietud o problemática?</ion-label>
+        <ion-select formControlName="solucionInquietud">
+          <ion-option value="10" checked="true">Si me ayudaron en todo</ion-option>}
+          <ion-option value="5" >No sé si me ayudaron</ion-option>
+          <ion-option value="0" >No me ayudaron en nada</ion-option>
+        </ion-select>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Nombre</ion-label>
+        <ion-input formControlName="nombre" type="text"></ion-input>
+      </ion-item>
+
+      <ion-item>
+          <ion-label>Teléfono</ion-label>
+          <ion-input formControlName="telefono" type="tel"></ion-input>
+      </ion-item>
+
+</form>
+<button ion-button full color="primary" (click)="save()">Guardar Encuesta</button>
+</ion-content>

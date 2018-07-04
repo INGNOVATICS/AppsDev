@@ -1,0 +1,106 @@
+/* You can add global styles to this file, and also import other style files */
+/*Definimos estilos de títulos y Subtítulos*/
+
+h1{
+	color: #006BB1;
+	text-align: left;
+	font-family: "lato";
+	}
+
+h3{
+	color: #48A9E1;
+	text-align: left;
+	line-height: 1pt;
+	font-family: "lato";
+	}
+
+/*Definimos estilo de línea*/
+
+hr{
+	border: 0.5px solid #e6e6e6;
+	width: 50%;
+	margin-left: 0%;
+}
+
+/*Definimos estilo de los formularios*/
+
+input{
+padding: 8px;
+border: 1px solid #ccc;
+-moz-border-radius: 10px;
+-webkit-border-radius: 10px;
+border-radius: 10px;
+display: block;
+width: 30%;
+margin-left: 10%;
+} 
+
+label{
+	margin-left: 10%;
+	font-family: "arial";
+	color: #565656;
+}
+
+.formulario{
+	margin-top: 3%;
+	margin-left: 30%;
+}
+
+button{
+	margin-left: 21%;
+	margin-top: 1%;
+	border: 1px solid #48A9E1;
+	background-color: #48A9E1;
+	color: #ffffff;
+	padding: 8px;
+	width: 100px;
+	-moz-border-radius: 40px;
+    -webkit-border-radius: 40px;
+    border-radius: 40px;
+}
+
+.respuesta{
+	border-bottom: 1px solid #ccc;
+	width: 30%;
+	margin-left: 10%;
+	margin-top: 2%;
+	/*font-family: "lato";*/
+	font-size: 14px;
+}
+
+.observacion{
+	padding: 14px;
+	border: 1px solid #ccc;
+	width: 28%;
+	margin-left: 10%;
+	margin-top: 2%;
+	font-family: "lato";
+	font-size: 14px;
+	-moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+}
+
+/* Definimos estilos del pie de página*/
+
+img{
+	width: 40px;
+	height: 40px;
+	border: 1px solid #e6e6e6;
+	-moz-border-radius: 40px;
+    -webkit-border-radius: 40px;
+    border-radius: 40px;
+}
+
+.footer{
+	margin-top: 8%;
+	margin-left: 55%;
+    font-family: "lato";
+    font-size: 12px;
+    color: #565656;
+    }
+
+.cabeza, .informacion{
+	margin-left: 30%;
+
+}

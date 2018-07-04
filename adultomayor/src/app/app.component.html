@@ -1,0 +1,16 @@
+<div style="text-align:center">
+  <h3>
+    {{title}}
+  </h3>
+  <hr>
+  <input class="form-control" type="text" placeholder="Cedula" [(ngModel)]="cedula">
+
+  <button type="button" class="btn btn-secondary btn-sm" (click)="consultarEstado()"
+    ng-disabled="longitudCedula()">Consultar</button>
+</div>
+<div *ngIf="exito">
+<p>Documento: {{datos.num_doc}}</p>
+<p>Nombres: {{datos.nombre_completo}}</p>
+<p>Estado: {{datos.estado_programa}}</p>
+<p>Observación: {{datos.razon_estado}}</p>
+</div>

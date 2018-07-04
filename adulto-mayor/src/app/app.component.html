@@ -1,0 +1,22 @@
+<!--The content below is only a placeholder and can be replaced.-->
+<div style="text-align:center">
+  <h2>
+    {{title}}
+  </h2>
+  <h3>
+    {{subtitle}}
+  </h3>
+  <hr>
+  <input class="form-control" type="text" placeholder="Cedula" [(ngModel)]="cedula">
+
+  <button type="button" class="btn btn-secondary btn-sm" (click)="consultarEstado()">Consultar</button>
+</div>
+
+<div *ngIf="show">
+  <ul>
+  <li>N&uacute;mero de documento: {{datos.num_doc}}</li>
+  <li>Nombres: {{datos.nombre_completo}}</li>
+  <li>Estado actual: {{datos.estado_programa|uppercase}}</li>
+  <li>Observaciones: {{datos.razon_estado|uppercase}}</li>
+</ul>
+</div>
